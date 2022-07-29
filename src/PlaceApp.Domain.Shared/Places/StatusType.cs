@@ -7,7 +7,7 @@ namespace PlaceApp.Places
     public enum StatusType
     {
         Pending,
-        Approve,
-        Discard
+        Approval,
+        Disapproval
     }
 }

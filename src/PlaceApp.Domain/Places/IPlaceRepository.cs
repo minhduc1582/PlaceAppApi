@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Volo.Abp.Domain.Repositories;
+
+namespace PlaceApp.Places
+{
+    public interface IPlaceRepository : IRepository<Place, Guid>
+    {
+        Task<Place> FindByNameAsync(string name);
+
+        Task<List<Place>> GetListAsync(
+            int skipCount,
+            int maxResultCount,
+            string sorting,
+            string filter = null
+        );
+    }
+}
