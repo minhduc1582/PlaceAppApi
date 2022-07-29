@@ -12,6 +12,6 @@ namespace PlaceApp.Places
         public string Name { get; set; }
         public string Source { get; set; }
         public StatusType Status { get;set; }
-        public Guid PlaceTypeId { get; set; }
+        public string PlaceType { get; set; }
     }
 }
