@@ -6,6 +6,7 @@
     "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
     "Enum:StatusType:0": "Pending",
     "Enum:StatusType:1": "Approve",
-    "Enum:StatusType:2": "Discard"
+    "Enum:StatusType:2": "Discard",
+    "PlaceApp:00001": "Place Type Name was exist"
   }
 }
