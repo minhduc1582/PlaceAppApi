@@ -15,8 +15,8 @@ public class PlaceAppApplicationAutoMapperProfile : Profile
         CreateMap<PlaceType, PlaceTypeReponseDto>();
 
         CreateMap<Place, PlaceDto>();
-        CreateMap<PlaceRequestDto, Place>();
-        CreateMap<Place, PlaceReponseDto>();
+        CreateMap<PlaceRequestReponseDto, Place>();
+        CreateMap<Place, PlaceRequestReponseDto>();
         
     }
 }
