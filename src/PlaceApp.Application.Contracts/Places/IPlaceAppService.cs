@@ -10,6 +10,6 @@ namespace PlaceApp.Places
     public interface IPlaceAppService : IApplicationService
     {
         Task<PagedResultDto<PlaceDto>> GetListAsync(GetListPlace input);
-        Task<PlaceReponseDto> Create(PlaceRequestDto place);
+        Task<PlaceRequestReponseDto> Create(PlaceRequestReponseDto place);
     }
 }

@@ -18,18 +18,18 @@ namespace PlaceApp.Places
             _placeRepository = placeRepository;
         }
 
-        public async Task<PlaceReponseDto> Create(PlaceRequestDto place)
+        public async Task<PlaceRequestReponseDto> Create(PlaceRequestReponseDto place)
         {
-            var places = ObjectMapper.Map<PlaceRequestDto, Place>(place);
+            var places = ObjectMapper.Map<PlaceRequestReponseDto, Place>(place);
             Check.NotNullOrWhiteSpace(place.Name, nameof(place.Name));
-            var existing = await _placeRepository.FindByName(place.Name);
+            var existing = await _placeRepository.FindByNameAsync(place.Name);
             if (existing != null)
             {
                 throw new PlaceAlreadyExistsException(place.Name);
             }
             place.Status = 0;
             await _placeRepository.InsertAsync(places);
-            return places == null ? null : ObjectMapper.Map<Place, PlaceReponseDto>(places);
+            return places == null ? null : ObjectMapper.Map<Place, PlaceRequestReponseDto>(places);
         }
 
         public async Task<PagedResultDto<PlaceDto>> GetListAsync(GetListPlace input)
@@ -40,7 +40,9 @@ namespace PlaceApp.Places
             }
 
             var authors = await _placeRepository.GetListAsync(
-
+                input.SkipCount,
+                input.MaxResultCount,
+                input.Sorting,
                 input.Filter
             );
 
