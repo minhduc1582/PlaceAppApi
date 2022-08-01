@@ -18,6 +18,8 @@ Install the ABP CLI:
 
 Right click to the .DbMigrator project and select Set as StartUp Project, Hit F5 (or Ctrl+F5) to run the application. It will have an output like shown below:
 ![image](https://user-images.githubusercontent.com/62060849/182127661-d3367a52-6d48-4860-8457-4b5a3deec3a6.png)
+
+
 Before starting the application, run abp install-libs command in your Web directory to restore the client-side libraries. This will populate the libs folder.
 Ensure that the .Web project is the startup project. Run the application which will open the login page in your browser:
 
