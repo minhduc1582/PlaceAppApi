@@ -15,5 +15,12 @@ namespace PlaceApp.Places
             string sorting,
             string filter = null
         );
+        Task<List<Place>> GetListByStatusTypeAsync(
+            StatusType statusType,
+            int skipCount,
+            int maxResultCount,
+            string sorting,
+            string filter = null
+        );
     }
 }
