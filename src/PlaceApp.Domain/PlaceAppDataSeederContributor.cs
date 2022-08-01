@@ -22,11 +22,14 @@ namespace PlaceApp
         public PlaceAppDataSeederContributor(
             IPlaceRepository placeRepository,
             IRepository<PlaceType, Guid> placeTypeRepository,
-            PlaceManager placeManager)
+            PlaceManager placeManager,
+            IRepository<Group, Guid> groupRepository
+            )
         {
             _placeRepository = placeRepository;
             _placeTypeRepository = placeTypeRepository;
             _placeManager = placeManager;
+            _groupRepository = groupRepository;
         }
 
         public async Task SeedAsync(DataSeedContext context)
