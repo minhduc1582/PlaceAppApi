@@ -38,6 +38,9 @@ using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.UI;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace PlaceApp.Web;
 
@@ -74,6 +77,11 @@ public class PlaceAppWebModule : AbpModule
 
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
+/*        //Jwt
+
+        context.Services.AddIdentity<User, Role>
+            .AddEntityFrameworkStore<PlaceAppMongoDbContext>();*/
+
         var hostingEnvironment = context.Services.GetHostingEnvironment();
         var configuration = context.Services.GetConfiguration();
 
@@ -190,6 +198,7 @@ public class PlaceAppWebModule : AbpModule
 
     private void ConfigureSwaggerServices(IServiceCollection services)
     {
+
         services.AddAbpSwaggerGen(
             options =>
             {

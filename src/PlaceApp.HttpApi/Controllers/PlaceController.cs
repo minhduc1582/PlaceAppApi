@@ -25,7 +25,7 @@ namespace PlaceApp.Controllers
             placeRequestReponseDto.PlaceType = input.place_type;
             placeRequestReponseDto.Name = input.place_type_name;
             placeRequestReponseDto.Source = "Auto";
-            return await _placeAppService.Create(placeRequestReponseDto);
+            return await _placeAppService.CreateAsync(placeRequestReponseDto);
         }
         public class PlaceAuto
         {

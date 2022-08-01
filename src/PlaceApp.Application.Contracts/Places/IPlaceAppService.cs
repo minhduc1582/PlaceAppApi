@@ -10,6 +10,8 @@ namespace PlaceApp.Places
     public interface IPlaceAppService : IApplicationService
     {
         Task<PagedResultDto<PlaceDto>> GetListAsync(GetListPlace input);
-        Task<PlaceRequestReponseDto> Create(PlaceRequestReponseDto place);
+        Task<PagedResultDto<PlaceDto>> GetListByStatusTypeAsync(GetListPlace input,StatusType statusType);
+        Task<PlaceRequestReponseDto> CreateAsync(PlaceRequestReponseDto place);
+        Task<PlaceDto> UpdateAsync(Guid id, StatusType statusType);
     }
 }

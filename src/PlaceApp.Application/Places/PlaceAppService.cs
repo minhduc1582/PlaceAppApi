@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,8 +18,8 @@ namespace PlaceApp.Places
         {
             _placeRepository = placeRepository;
         }
-
-        public async Task<PlaceRequestReponseDto> Create(PlaceRequestReponseDto place)
+        [AllowAnonymous]
+        public async Task<PlaceRequestReponseDto> CreateAsync(PlaceRequestReponseDto place)
         {
             var places = ObjectMapper.Map<PlaceRequestReponseDto, Place>(place);
             Check.NotNullOrWhiteSpace(place.Name, nameof(place.Name));
@@ -31,7 +32,7 @@ namespace PlaceApp.Places
             await _placeRepository.InsertAsync(places);
             return places == null ? null : ObjectMapper.Map<Place, PlaceRequestReponseDto>(places);
         }
-
+        [Authorize(Roles = "admin")]
         public async Task<PagedResultDto<PlaceDto>> GetListAsync(GetListPlace input)
         {
             if (input.Sorting.IsNullOrWhiteSpace())
@@ -55,6 +56,37 @@ namespace PlaceApp.Places
                 totalCount,
                 ObjectMapper.Map<List<Place>, List<PlaceDto>>(authors)
             );
+        }
+        [Authorize(Roles = "admin")]
+        public async Task<PagedResultDto<PlaceDto>> GetListByStatusTypeAsync(GetListPlace input,StatusType statusType)
+        {
+            if (input.Sorting.IsNullOrWhiteSpace())
+            {
+                input.Sorting = nameof(Place.Name);
+            }
+
+            var authors = await _placeRepository.GetListByStatusTypeAsync(
+                statusType,
+                input.SkipCount,
+                input.MaxResultCount,
+                input.Sorting,
+                input.Filter
+            );
+
+            var totalCount = authors.Count();
+
+            return new PagedResultDto<PlaceDto>(
+                totalCount,
+                ObjectMapper.Map<List<Place>, List<PlaceDto>>(authors)
+            );
+        }
+        [Authorize(Roles = "admin")]
+        public async Task<PlaceDto> UpdateAsync(Guid id,StatusType statusType)
+        {
+            var place = await _placeRepository.GetAsync(id);
+            place.Status = statusType;
+            var placeUpdated = await _placeRepository.UpdateAsync(place);
+            return ObjectMapper.Map<Place,PlaceDto>(placeUpdated);
         }
     }
 }
