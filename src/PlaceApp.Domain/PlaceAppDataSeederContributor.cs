@@ -59,6 +59,7 @@ namespace PlaceApp
 
 
 
+
             await _placeTypeRepository.InsertAsync(new PlaceType { TypeName = "	Xe cộ	", Type = "	car	", GroupId = car.Id }, autoSave: true);
             await _placeTypeRepository.InsertAsync(new PlaceType { TypeName = "	Đại lý xe oto	", Type = "	car_dealer	", GroupId = car.Id }, autoSave: true);
             await _placeTypeRepository.InsertAsync(new PlaceType { TypeName = "	Đại lý xe máy	", Type = "	motorcycle_dealer	", GroupId = car.Id }, autoSave: true);
