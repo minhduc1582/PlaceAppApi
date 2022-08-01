@@ -6,10 +6,15 @@ namespace PlaceApp.Places
 {
     public class PlaceDto
     {
-        public string Name { get; set; }
+        private string name;
+        public string Name {
+            get { return name; }
+            set { name = value.Trim(); }
+        } 
         public string Source { get; set; }
         public StatusType Status { get; set; }
-        public string PlaceType { get; set; }
+        public string PlaceType { get; set; } 
+        
 
     }
     //public class PlaceRequestReponseDto
