@@ -57,7 +57,7 @@ namespace PlaceApp.Places
                 ObjectMapper.Map<List<Place>, List<PlaceDto>>(authors)
             );
         }
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<PagedResultDto<PlaceDto>> GetListByStatusTypeAsync(GetListPlace input,StatusType statusType)
         {
             if (input.Sorting.IsNullOrWhiteSpace())
@@ -80,7 +80,7 @@ namespace PlaceApp.Places
                 ObjectMapper.Map<List<Place>, List<PlaceDto>>(authors)
             );
         }
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<PlaceDto> UpdateAsync(Guid id,StatusType statusType)
         {
             var place = await _placeRepository.GetAsync(id);
