@@ -41,6 +41,10 @@ using Volo.Abp.VirtualFileSystem;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Mvc.Filters;
+using System.Web.Http.Filters;
+using System.Configuration;
+using Volo.Abp.Application.Services;
 
 namespace PlaceApp.Web;
 
@@ -84,7 +88,6 @@ public class PlaceAppWebModule : AbpModule
 
         var hostingEnvironment = context.Services.GetHostingEnvironment();
         var configuration = context.Services.GetConfiguration();
-
         ConfigureUrls(configuration);
         ConfigureBundles();
         ConfigureAuthentication(context, configuration);
@@ -127,8 +130,6 @@ public class PlaceAppWebModule : AbpModule
                 options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
                 options.Audience = "PlaceApp";
             });
-
-        context.Services.ForwardIdentityAuthenticationForBearer();
     }
 
     private void ConfigureAutoMapper()
