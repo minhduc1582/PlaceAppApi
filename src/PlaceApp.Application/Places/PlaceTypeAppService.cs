@@ -10,7 +10,6 @@ using Volo.Abp.Domain.Repositories;
 
 namespace PlaceApp.Places
 {
-    [EnableCors("AnotherPolicy")]
     public class PlaceTypeAppService:PlaceAppAppService,IPlaceTypeAppService
     {
         private readonly IPlaceTypeRepository _placeTypeRepository;

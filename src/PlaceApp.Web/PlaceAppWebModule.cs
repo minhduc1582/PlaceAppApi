@@ -130,6 +130,24 @@ public class PlaceAppWebModule : AbpModule
                 options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
                 options.Audience = "PlaceApp";
             });
+        // Enable CORS
+        context.Services.AddCors(option =>
+        {
+            option.AddPolicy("CorsPolicy", builder =>
+            {
+                builder.AllowAnyOrigin();
+                builder.AllowAnyMethod();
+                builder.AllowAnyHeader();
+            });
+        });
+        //context.Services.AddAuthorization(options =>
+        //{
+        //    options.AddPolicy("Admin", policy =>
+        //    {
+        //        policy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
+        //        policy.RequireAuthenticatedUser();
+        //    });
+        //});
     }
 
     private void ConfigureAutoMapper()
@@ -229,9 +247,11 @@ public class PlaceAppWebModule : AbpModule
 
         app.UseCorrelationId();
         app.UseStaticFiles();
+        app.UseCors("CorsPolicy");
         app.UseRouting();
         app.UseAuthentication();
         app.UseJwtTokenMiddleware();
+
 
         if (MultiTenancyConsts.IsEnabled)
         {

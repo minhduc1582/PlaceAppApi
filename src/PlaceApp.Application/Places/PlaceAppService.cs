@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.Identity.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp;
@@ -12,13 +15,15 @@ namespace PlaceApp.Places
 {
     public class PlaceAppService : PlaceAppAppService, IPlaceAppService
     {
+
         private readonly IPlaceRepository _placeRepository;
         public PlaceAppService(
             IPlaceRepository placeRepository)
         {
             _placeRepository = placeRepository;
+
         }
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<PlaceRequestReponseDto> CreateAsync(PlaceRequestReponseDto place)
         {
             var places = ObjectMapper.Map<PlaceRequestReponseDto, Place>(place);
@@ -32,9 +37,10 @@ namespace PlaceApp.Places
             await _placeRepository.InsertAsync(places);
             return places == null ? null : ObjectMapper.Map<Place, PlaceRequestReponseDto>(places);
         }
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<PagedResultDto<PlaceDto>> GetListAsync(GetListPlace input)
         {
+
             if (input.Sorting.IsNullOrWhiteSpace())
             {
                 input.Sorting = nameof(Place.Name);
