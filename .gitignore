@@ -262,4 +262,3 @@ src/PlaceApp.Blazor.Server/Logs/*
 src/PlaceApp.Blazor.Server.Tiered/Logs/*
 
 # Use abp install-libs to restore.
-**/wwwroot/libs/*
