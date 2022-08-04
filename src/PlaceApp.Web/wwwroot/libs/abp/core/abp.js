@@ -629,6 +629,7 @@ var abp = abp || {};
 
         if (expireDate) {
             cookieValue = cookieValue + "; expires=" + expireDate.toUTCString();
+            //cookieValue = cookieValue + "; expires=" + (new Date(new Date().getTime() + 86400000)).toUTCString()
         }
 
         if (path) {

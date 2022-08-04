@@ -18,20 +18,19 @@ namespace PlaceApp.Controllers
     public class PlaceController : ControllerBase
     {
         private readonly IPlaceAppService _placeAppService;
-        public PlaceController(IPlaceAppService placeAppService)
+        readonly ITokenAcquisition tokenAcquisition;
+
+        public PlaceController(IPlaceAppService placeAppService, ITokenAcquisition tokenAcquisition)
         {
             _placeAppService = placeAppService;
- 
+            this.tokenAcquisition = tokenAcquisition;
+
         }
         [Route("place-types")]
         [HttpPost]
-        public async Task<PlaceRequestReponseDto> CreatePlaceAuto(PlaceAutoDto input)
+        public async Task<PlaceDto> CreatePlaceAuto(PlaceRequestDto input)
         {
-            PlaceRequestReponseDto placeRequestReponseDto= new PlaceRequestReponseDto();
-            placeRequestReponseDto.PlaceType = input.place_type;
-            placeRequestReponseDto.Name = input.place_type_name;
-            placeRequestReponseDto.Source = "Auto";
-            return await _placeAppService.CreateAsync(placeRequestReponseDto);
+            return await _placeAppService.CreateModeSourceAsync(input,1);
         }
     }
 }

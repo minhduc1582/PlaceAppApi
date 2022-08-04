@@ -21,16 +21,15 @@ namespace PlaceApp.Places
         
 
     }
-    //public class PlaceRequestReponseDto
-    //{
-    //    public string Name { get; set; }
-    //    public string PlaceType { get; set; }
-    //    public StatusType Status { get; set; }
-    //}
-    public class PlaceRequestReponseDto
+    public class PlaceRequestDto
     {
         public string Name { get; set; }
-        public string Source { get; set; }
+        public string PlaceType { get; set; }
+    }
+    public class PlaceReponseDto
+    {
+        public string Name { get; set; }
+        public string Source { get; set; } 
         public StatusType Status { get; set; }  = StatusType.Pending;
         public string PlaceType { get; set; }
     }

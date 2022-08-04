@@ -45,6 +45,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System.Web.Http.Filters;
 using System.Configuration;
 using Volo.Abp.Application.Services;
+using Microsoft.Identity.Web;
 
 namespace PlaceApp.Web;
 

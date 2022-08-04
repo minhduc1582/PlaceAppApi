@@ -11,7 +11,8 @@ namespace PlaceApp.Places
     {
         Task<PagedResultDto<PlaceDto>> GetListAsync(GetListPlace input);
         Task<PagedResultDto<PlaceDto>> GetListByStatusTypeAsync(GetListPlace input,StatusType statusType);
-        Task<PlaceRequestReponseDto> CreateAsync(PlaceRequestReponseDto place);
+        Task<PlaceDto> CreateAsync(PlaceRequestDto place);
+        Task<PlaceDto> CreateModeSourceAsync(PlaceRequestDto place, int mode = 0);
         Task<PlaceDto> UpdateAsync(Guid id, StatusType statusType);
     }
 }

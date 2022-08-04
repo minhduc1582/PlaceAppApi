@@ -11,7 +11,7 @@ namespace PlaceApp.Places
     {
         public string Name { get; set; }
         public string Source { get; set; }
-        public StatusType Status { get;set; }
+        public StatusType Status { get; set; } = StatusType.Pending;
         public string PlaceType { get; set; }
         public Place(string name, string source, StatusType status, string placeType)
         {
@@ -20,5 +20,6 @@ namespace PlaceApp.Places
             Status = status;
             PlaceType = placeType;
         }
+        public Place() { }
     }
 }
