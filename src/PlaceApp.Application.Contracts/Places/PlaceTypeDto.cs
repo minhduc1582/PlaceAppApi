@@ -8,7 +8,11 @@ namespace PlaceApp.Places
     public class PlaceTypeDto : EntityDto<Guid>
     {
         private string typeName;
-        public string Type { get; set; }
+        private string type;
+        public string Type {
+            get { return type; }
+            set { type = value.Trim(); }
+        }
         public string TypeName
         {
             get { return typeName; }

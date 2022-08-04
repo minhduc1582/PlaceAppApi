@@ -9,6 +9,7 @@ namespace PlaceApp.Places
     {
         private string name;
         private StatusType status;
+        private string placeType;
         public string Name {
             get { return name; }
             set { name = value.Trim(); }
@@ -17,7 +18,10 @@ namespace PlaceApp.Places
         public string Status { 
             get { return status.ToString(); } 
             set { status = (StatusType)Enum.Parse(typeof(StatusType), value); } }
-        public string PlaceType { get; set; } 
+        public string PlaceType { 
+            get { return placeType; } 
+            set { placeType = value.Trim(); }
+        } 
         
 
     }
