@@ -14,5 +14,6 @@ namespace PlaceApp.Places
         Task<PlaceDto> CreateAsync(PlaceRequestDto place);
         Task<PlaceDto> CreateModeSourceAsync(PlaceRequestDto place, int mode = 0);
         Task<PlaceDto> UpdateAsync(Guid id, StatusType statusType);
+        Task<List<PlaceDto>> ExportData();
     }
 }

@@ -30,11 +30,4 @@ namespace PlaceApp.Places
         public string Name { get; set; }
         public string PlaceType { get; set; }
     }
-    public class PlaceReponseDto
-    {
-        public string Name { get; set; }
-        public string Source { get; set; } 
-        public StatusType Status { get; set; }  = StatusType.Pending;
-        public string PlaceType { get; set; }
-    }
 }

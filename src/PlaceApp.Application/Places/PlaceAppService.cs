@@ -1,22 +1,25 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Aspose.Cells;
+using ClosedXML.Excel;
+using Ganss.Excel;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using PlaceApp.Permissions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Domain.Repositories;
-
 namespace PlaceApp.Places
 {
     [Authorize(PlaceAppPermissions.Places.Default)]
     public class PlaceAppService : PlaceAppAppService, IPlaceAppService
     {
-
         private readonly IConfiguration _configuration;
         private readonly IPlaceRepository _placeRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -83,7 +86,8 @@ namespace PlaceApp.Places
                 ObjectMapper.Map<List<Place>, List<PlaceDto>>(authors)
             );
         }
-        [Authorize(PlaceAppPermissions.Places.Get)]
+        //[Authorize(PlaceAppPermissions.Places.Get)]
+        [AllowAnonymous]
         public async Task<PagedResultDto<PlaceDto>> GetListByStatusTypeAsync(GetListPlace input,StatusType statusType)
         {
             if (input.Sorting.IsNullOrWhiteSpace())
@@ -106,6 +110,23 @@ namespace PlaceApp.Places
                 ObjectMapper.Map<List<Place>, List<PlaceDto>>(authors)
             );
         }
+
+        [AllowAnonymous]
+        [RemoteService(IsEnabled = false)]
+        public async Task<List<PlaceDto>> ExportData()
+        {
+            GetListPlace input = new GetListPlace();
+            var places = await _placeRepository.GetListByStatusTypeAsync(
+                StatusType.Approval,
+                0,
+                int.MaxValue,
+                "Name",
+                input.Filter
+            );
+            return ObjectMapper.Map<List<Place>, List<PlaceDto>>(places);
+        }
+
+
         [Authorize(PlaceAppPermissions.Places.Edit)]
         public async Task<PlaceDto> UpdateAsync(Guid id,StatusType statusType)
         {

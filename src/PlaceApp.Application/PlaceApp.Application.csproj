@@ -13,6 +13,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Aspose.Cells" Version="22.8.0" />
+    <PackageReference Include="ClosedXML" Version="0.96.0" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.17.1" />
+    <PackageReference Include="ExcelMapper" Version="5.2.415" />
+    <PackageReference Include="IronXL.Excel" Version="2022.7.7362" />
+    <PackageReference Include="LS.Library.CommonExcel" Version="1.0.0.1" />
     <PackageReference Include="Microsoft.Identity.Web" Version="1.25.1" />
     <PackageReference Include="Microsoft.VisualStudio.Services.Client" Version="16.170.0" />
     <PackageReference Include="RestSharp" Version="106.12.0" />
