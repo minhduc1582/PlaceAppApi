@@ -23,7 +23,7 @@ namespace PlaceApp.Places
         public async Task<PlaceType> FindByName(string name)
         {
             var queryable = await GetMongoQueryableAsync();
-            return await queryable.FirstOrDefaultAsync(place=>place.TypeName == name);
+            return await queryable.FirstOrDefaultAsync(place=>place.TypeName.Trim().ToLower() == name.Trim().ToLower());
         }
 
         public async Task<List<PlaceType>> GetListAsync(string filter = null)

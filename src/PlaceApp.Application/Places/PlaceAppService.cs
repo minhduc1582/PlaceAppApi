@@ -1,7 +1,4 @@
-﻿using Aspose.Cells;
-using ClosedXML.Excel;
-using Ganss.Excel;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,20 +17,17 @@ namespace PlaceApp.Places
     [Authorize(PlaceAppPermissions.Places.Default)]
     public class PlaceAppService : PlaceAppAppService, IPlaceAppService
     {
-        private readonly IConfiguration _configuration;
         private readonly IPlaceRepository _placeRepository;
         private readonly IHttpContextAccessor _httpContextAccessor;
         public PlaceAppService(
             IPlaceRepository placeRepository,
-            IConfiguration configuration,
             IHttpContextAccessor httpContextAccessor)
         {
             _placeRepository = placeRepository;
-            _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
         }
         [AllowAnonymous]
-        //[RemoteService(IsEnabled = false)D]
+        //[RemoteService(IsEnabled = false)]
         public async Task<PlaceDto> CreateAsync(PlaceRequestDto place)
         {
             return await CreateModeSourceAsync(place);
@@ -86,8 +80,25 @@ namespace PlaceApp.Places
                 ObjectMapper.Map<List<Place>, List<PlaceDto>>(authors)
             );
         }
-        //[Authorize(PlaceAppPermissions.Places.Get)]
         [AllowAnonymous]
+        public async Task<List<String>> GetPlaceTypeName(GetListPlace input)
+        {
+            if (input.Sorting.IsNullOrWhiteSpace())
+            {
+                input.Sorting = nameof(Place.Name);
+            }
+
+            var places = await _placeRepository.GetListAsync(
+                input.SkipCount,
+                input.MaxResultCount = int.MaxValue,
+                input.Sorting,
+                input.Filter
+            );
+            List<string> results = new List<string>();
+            return places.Select(item => item.Name.Trim()).ToList();
+        }
+        [Authorize(PlaceAppPermissions.Places.Get)]
+  //      [AllowAnonymous]
         public async Task<PagedResultDto<PlaceDto>> GetListByStatusTypeAsync(GetListPlace input,StatusType statusType)
         {
             if (input.Sorting.IsNullOrWhiteSpace())

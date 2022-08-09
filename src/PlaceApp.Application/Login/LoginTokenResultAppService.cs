@@ -1,13 +1,17 @@
 ﻿using IdentityModel.Client;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.Services.Account;
 using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
 using Volo.Abp.Application.Services;
 
 namespace PlaceApp.Login
@@ -20,19 +24,7 @@ namespace PlaceApp.Login
             _configuration = configuration;
         }
 
-        //public Task<string> Login(UserLoginDto user)
-        //{
-
-        //    //string url = "https://localhost:44394/api/account/login";
-        //    //var client = new RestClient(url);
-        //    //client.Timeout = -1;
-        //    //var request = new RestRequest(Method.POST);
-        //    //request.AddParameter("userNameOrEmailAddress", user.userNameOrEmailAddress);
-        //    //request.AddParameter("password", user.password);
-        //    //request.AddParameter("rememberMe", user.rememberMe);
-        //    //IRestResponse response = client.Execute(request);
-        //    //return Task.FromResult(response.ContentEncoding);
-        //}
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<LoginResultDto> LoginGetToken(UserLoginDto user)
         {
             LoginResultDto loginResultDto = new LoginResultDto();
@@ -62,6 +54,7 @@ namespace PlaceApp.Login
 
                 if (result.IsError)
                 {
+
                     loginResultDto.description = "InvalidUserNameOrPassword";
                     return loginResultDto;
                 }
