@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Cors;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,7 +39,7 @@ namespace PlaceApp.Places
                 ObjectMapper.Map<List<PlaceType>, List<PlaceTypeDto>>(places)
             );
         }
-        public async Task<PlaceTypeReponseDto> Create(PlaceTypeRequestDto place)
+        public async Task<PlaceTypeReponseDto> CreateAsync(PlaceTypeRequestDto place)
         {
             var p = ObjectMapper.Map<PlaceTypeRequestDto, PlaceType>(place);
             Check.NotNullOrWhiteSpace(place.TypeName, nameof(place.TypeName));

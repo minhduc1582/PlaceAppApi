@@ -7,6 +7,11 @@
     "Enum:StatusType:0": "Pending",
     "Enum:StatusType:1": "Approve",
     "Enum:StatusType:2": "Discard",
-    "PlaceApp:00001": "Place Type Name was exist"
+    "PlaceApp:00001": "Place Type Name was exist",
+    "Permission:PlaceApp": "Place App",
+    "Permission:Places": "Place Management",
+    "Permission:Places.Get": "Getting list places",
+    "Permission:Places.Edit": "Editing the Places",
+    "Permission:Places.Delete": "Deleting the places"
   }
 }

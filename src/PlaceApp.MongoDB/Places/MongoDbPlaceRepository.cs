@@ -24,7 +24,7 @@ namespace PlaceApp.Places
         public async Task<Place> FindByNameAsync(string name)
         {
             var queryable = await GetMongoQueryableAsync();
-            return await queryable.FirstOrDefaultAsync(place => place.Name == name);
+            return await queryable.FirstOrDefaultAsync(place => place.Name.Trim().ToUpper() == name.Trim().ToUpper());
         }
 
         public async Task<List<Place>> GetListAsync(
@@ -38,6 +38,30 @@ namespace PlaceApp.Places
                 .WhereIf<Place, IMongoQueryable<Place>>(
                     !filter.IsNullOrWhiteSpace(),
                     place => place.Name.Contains(filter)
+                )
+                .OrderBy(sorting)
+                .As<IMongoQueryable<Place>>()
+                .Skip(skipCount)
+                .Take(maxResultCount)
+                .ToListAsync();
+        }
+        public async Task<List<Place>> GetListByStatusTypeAsync(
+            StatusType statusType,
+            int skipCount,
+            int maxResultCount,
+            string sorting,
+            string filter = null)
+        {
+            var queryable = await GetMongoQueryableAsync();
+            return await queryable
+                .WhereIf<Place, IMongoQueryable<Place>>(
+                    !filter.IsNullOrWhiteSpace(),
+                    place => place.Name.Contains(filter)
+                )
+                .WhereIf<Place, IMongoQueryable<Place>>(
+                    true,
+                    place => place.Status == statusType
+
                 )
                 .OrderBy(sorting)
                 .As<IMongoQueryable<Place>>()

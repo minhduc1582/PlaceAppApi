@@ -13,10 +13,7 @@ public class PlaceAppApplicationAutoMapperProfile : Profile
         CreateMap<PlaceType, PlaceTypeDto>();
         CreateMap<PlaceTypeRequestDto, PlaceType>();
         CreateMap<PlaceType, PlaceTypeReponseDto>();
-
         CreateMap<Place, PlaceDto>();
-        CreateMap<PlaceRequestReponseDto, Place>();
-        CreateMap<Place, PlaceRequestReponseDto>();
         
     }
 }

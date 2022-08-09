@@ -38,6 +38,14 @@ using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.UI;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Mvc.Filters;
+using System.Web.Http.Filters;
+using System.Configuration;
+using Volo.Abp.Application.Services;
+using Microsoft.Identity.Web;
 
 namespace PlaceApp.Web;
 
@@ -74,9 +82,13 @@ public class PlaceAppWebModule : AbpModule
 
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
+/*        //Jwt
+
+        context.Services.AddIdentity<User, Role>
+            .AddEntityFrameworkStore<PlaceAppMongoDbContext>();*/
+
         var hostingEnvironment = context.Services.GetHostingEnvironment();
         var configuration = context.Services.GetConfiguration();
-
         ConfigureUrls(configuration);
         ConfigureBundles();
         ConfigureAuthentication(context, configuration);
@@ -119,8 +131,24 @@ public class PlaceAppWebModule : AbpModule
                 options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
                 options.Audience = "PlaceApp";
             });
-
-        context.Services.ForwardIdentityAuthenticationForBearer();
+        // Enable CORS
+        context.Services.AddCors(option =>
+        {
+            option.AddPolicy("CorsPolicy", builder =>
+            {
+                builder.AllowAnyOrigin();
+                builder.AllowAnyMethod();
+                builder.AllowAnyHeader();
+            });
+        });
+        //context.Services.AddAuthorization(options =>
+        //{
+        //    options.AddPolicy("Admin", policy =>
+        //    {
+        //        policy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
+        //        policy.RequireAuthenticatedUser();
+        //    });
+        //});
     }
 
     private void ConfigureAutoMapper()
@@ -190,6 +218,7 @@ public class PlaceAppWebModule : AbpModule
 
     private void ConfigureSwaggerServices(IServiceCollection services)
     {
+
         services.AddAbpSwaggerGen(
             options =>
             {
@@ -219,9 +248,11 @@ public class PlaceAppWebModule : AbpModule
 
         app.UseCorrelationId();
         app.UseStaticFiles();
+        app.UseCors("CorsPolicy");
         app.UseRouting();
         app.UseAuthentication();
         app.UseJwtTokenMiddleware();
+
 
         if (MultiTenancyConsts.IsEnabled)
         {

@@ -23,8 +23,7 @@ namespace PlaceApp
             IPlaceRepository placeRepository,
             IRepository<PlaceType, Guid> placeTypeRepository,
             PlaceManager placeManager,
-            IRepository<Group, Guid> groupRepository
-            )
+            IRepository<Group, Guid> groupRepository)
         {
             _placeRepository = placeRepository;
             _placeTypeRepository = placeTypeRepository;
