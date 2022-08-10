@@ -28,11 +28,11 @@ namespace PlaceApp.Login
         public async Task<LoginResultDto> LoginGetToken(UserLoginDto user)
         {
             LoginResultDto loginResultDto = new LoginResultDto();
-            HttpClient client = new HttpClient();
-            string url = $"{_configuration.GetSection("ExternalAPIs:UrlAdmin").Value}/api/account/login";
-            HttpResponseMessage response = await client.PostAsJsonAsync(
-                url, user);
-            response.EnsureSuccessStatusCode();
+            //HttpClient client = new HttpClient();
+            //string url = $"{_configuration.GetSection("ExternalAPIs:UrlAdmin").Value}/api/account/login";
+            //HttpResponseMessage response = await client.PostAsJsonAsync(
+            //    url, user);
+            //response.EnsureSuccessStatusCode();
 
             var httpClient = new HttpClient();
             var passwordTokenRequest = new PasswordTokenRequest()

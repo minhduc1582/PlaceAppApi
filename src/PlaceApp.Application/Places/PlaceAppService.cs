@@ -12,19 +12,21 @@ using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Users;
+
 namespace PlaceApp.Places
 {
     [Authorize(PlaceAppPermissions.Places.Default)]
     public class PlaceAppService : PlaceAppAppService, IPlaceAppService
     {
         private readonly IPlaceRepository _placeRepository;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ICurrentUser _currentUser;
         public PlaceAppService(
             IPlaceRepository placeRepository,
-            IHttpContextAccessor httpContextAccessor)
+            ICurrentUser currentUser)
         {
             _placeRepository = placeRepository;
-            _httpContextAccessor = httpContextAccessor;
+            _currentUser = currentUser;
         }
         [AllowAnonymous]
         //[RemoteService(IsEnabled = false)]
@@ -37,7 +39,7 @@ namespace PlaceApp.Places
         {
             string source = "";
             if (mode == 0) {
-                source = _httpContextAccessor.HttpContext.User.Identity.Name != null ? _httpContextAccessor.HttpContext.User.Identity.Name : "Anonymous"; }
+                source = _currentUser.UserName != null ? _currentUser.UserName : "Anonymous"; }
             else if (mode == 1) { source = "auto"; }
             Place placeReponseDto = new Place();
             placeReponseDto.PlaceType = place.PlaceType;
@@ -113,8 +115,11 @@ namespace PlaceApp.Places
                 input.Sorting,
                 input.Filter
             );
-
-            var totalCount = authors.Count();
+            var totalCount = input.Filter == null
+                ? await _placeRepository.CountAsync( author => author.Status == statusType)
+                : await _placeRepository.CountAsync(
+                    author => (author.Status == statusType) && (author.Name.Contains(input.Filter))  );
+            //var totalCount = authors.Count();
 
             return new PagedResultDto<PlaceDto>(
                 totalCount,

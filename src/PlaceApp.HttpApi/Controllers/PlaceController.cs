@@ -33,7 +33,7 @@ namespace PlaceApp.Controllers
             return await _placeAppService.CreateModeSourceAsync(input,1);
         }
         [Route("export-place")]
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Export()
         {
             GetListPlace input = new GetListPlace { SkipCount = 0, MaxResultCount = int.MaxValue, Sorting = "Name",Filter = "" };

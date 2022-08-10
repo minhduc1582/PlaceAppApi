@@ -105,6 +105,7 @@ public class PlaceAppWebModule : AbpModule
         Configure<AppUrlOptions>(options =>
         {
             options.Applications["MVC"].RootUrl = configuration["App:SelfUrl"];
+
         });
     }
 
@@ -140,6 +141,18 @@ public class PlaceAppWebModule : AbpModule
                 builder.AllowAnyMethod();
                 builder.AllowAnyHeader();
             });
+        });
+
+        // ROUTE PAGE
+        context.Services.AddRazorPages()
+        .AddRazorPagesOptions(options =>
+        {
+            // Match all routes to the index so we can handle routing client-side.
+            options.Conventions.AddPageRoute("/index", "/sign-in");
+            options.Conventions.AddPageRoute("/index", "/add-place");
+            options.Conventions.AddPageRoute("/index", "/review-place");
+            options.Conventions.AddPageRoute("/index", "/list-place");
+            options.Conventions.AddPageRoute("/index", "/sign-up");
         });
         //context.Services.AddAuthorization(options =>
         //{

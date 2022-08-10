@@ -8,6 +8,7 @@ using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using Volo.Abp.Domain.Repositories.MongoDB;
 using Volo.Abp.MongoDB;
+using System.Text.RegularExpressions;
 
 namespace PlaceApp.Places
 {
@@ -21,10 +22,21 @@ namespace PlaceApp.Places
         {
         }
 
-        public async Task<Place> FindByNameAsync(string name)
+        public async Task<string> FindByNameAsync(string name)
         {
             var queryable = await GetMongoQueryableAsync();
-            return await queryable.FirstOrDefaultAsync(place => place.Name.Trim().ToUpper() == name.Trim().ToUpper());
+           // return await queryable.FirstOrDefaultAsync(place => Regex.Replace(place.Name, @"\s", "") == name);
+           // return await queryable.FirstOrDefaultAsync(place => place.Name.ToString().Trim() == name);
+            List<String> places = queryable.Select(x => x.Name).ToList();
+            try
+            {
+
+                return places.FirstOrDefault(place => place.Trim() == name);
+            }
+            catch(Exception e)
+            {
+                return null;
+            }
         }
 
         public async Task<List<Place>> GetListAsync(

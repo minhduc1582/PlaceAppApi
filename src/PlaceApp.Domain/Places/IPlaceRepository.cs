@@ -7,7 +7,7 @@ namespace PlaceApp.Places
 {
     public interface IPlaceRepository : IRepository<Place, Guid>
     {
-        Task<Place> FindByNameAsync(string name);
+        Task<string> FindByNameAsync(string name);
 
         Task<List<Place>> GetListAsync(
             int skipCount,
