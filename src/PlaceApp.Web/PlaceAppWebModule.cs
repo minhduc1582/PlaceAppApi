@@ -46,6 +46,9 @@ using System.Web.Http.Filters;
 using System.Configuration;
 using Volo.Abp.Application.Services;
 using Microsoft.Identity.Web;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Volo.Abp.AspNetCore.Mvc.AntiForgery;
 
 namespace PlaceApp.Web;
 
@@ -98,6 +101,17 @@ public class PlaceAppWebModule : AbpModule
         ConfigureNavigationServices();
         ConfigureAutoApiControllers();
         ConfigureSwaggerServices(context.Services);
+
+        // Disble CSRF
+        Configure<AbpAntiForgeryOptions>(options =>
+        {
+            options.TokenCookie.Expiration = TimeSpan.FromDays(365);
+            options.AutoValidateIgnoredHttpMethods.Add("POST");
+            options.AutoValidateIgnoredHttpMethods.Add("PUT");
+            options.AutoValidateIgnoredHttpMethods.Add("GET");
+            options.AutoValidateIgnoredHttpMethods.Add("DELETE");
+        });
+
     }
 
     private void ConfigureUrls(IConfiguration configuration)
@@ -153,15 +167,18 @@ public class PlaceAppWebModule : AbpModule
             options.Conventions.AddPageRoute("/index", "/review-place");
             options.Conventions.AddPageRoute("/index", "/list-place");
             options.Conventions.AddPageRoute("/index", "/sign-up");
+            options.Conventions.AddPageRoute("/account/login", "/admin");
+            options.Conventions.ConfigureFilter(new IgnoreAntiforgeryTokenAttribute());
         });
-        //context.Services.AddAuthorization(options =>
-        //{
-        //    options.AddPolicy("Admin", policy =>
-        //    {
-        //        policy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
-        //        policy.RequireAuthenticatedUser();
-        //    });
-        //});
+        context.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy("Admin", policy =>
+            {
+                policy.AuthenticationSchemes.Add(CookieAuthenticationDefaults.LogoutPath);//AuthenticationScheme
+                policy.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
+                policy.RequireAuthenticatedUser();
+            });
+        });
     }
 
     private void ConfigureAutoMapper()
@@ -238,6 +255,32 @@ public class PlaceAppWebModule : AbpModule
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "PlaceApp API", Version = "v1" });
                 options.DocInclusionPredicate((docName, description) => true);
                 options.CustomSchemaIds(type => type.FullName);
+
+                // Config JWT Swagger
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme."
+                });
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                        {
+                            {
+                                  new OpenApiSecurityScheme
+                                  {
+                                      Reference = new OpenApiReference
+                                      {
+                                          Type = ReferenceType.SecurityScheme,
+                                          Id = "Bearer"
+                                      }
+                                  },
+                                 new string[] {}
+                            }
+                 });
+                //
             }
         );
     }
@@ -265,7 +308,6 @@ public class PlaceAppWebModule : AbpModule
         app.UseRouting();
         app.UseAuthentication();
         app.UseJwtTokenMiddleware();
-
 
         if (MultiTenancyConsts.IsEnabled)
         {

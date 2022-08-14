@@ -28,6 +28,7 @@ namespace PlaceApp.Places
             _placeRepository = placeRepository;
             _currentUser = currentUser;
         }
+
         [AllowAnonymous]
         //[RemoteService(IsEnabled = false)]
         public async Task<PlaceDto> CreateAsync(PlaceRequestDto place)
@@ -39,7 +40,8 @@ namespace PlaceApp.Places
         {
             string source = "";
             if (mode == 0) {
-                source = _currentUser.UserName != null ? _currentUser.UserName : "Anonymous"; }
+                source =  _currentUser.UserName != null ? _currentUser.UserName : "Anonymous";
+            }
             else if (mode == 1) { source = "auto"; }
             Place placeReponseDto = new Place();
             placeReponseDto.PlaceType = place.PlaceType;

@@ -23,8 +23,8 @@
 
   <ItemGroup>
     <None Include="wwwroot\static\css\main.4cb084ec.css.map" />
-    <None Include="wwwroot\static\js\main.2dfbf5ee.js" />
-    <None Include="wwwroot\static\js\main.2dfbf5ee.js.map" />
+    <None Include="wwwroot\static\js\main.d74a1ce5.js" />
+    <None Include="wwwroot\static\js\main.d74a1ce5.js.map" />
   </ItemGroup>
 
   <ItemGroup>

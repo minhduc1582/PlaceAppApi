@@ -1,15 +1,13 @@
 ﻿@page
-@using Microsoft.AspNetCore.Mvc.Localization
-@using PlaceApp.Localization
-@using Volo.Abp.Users
 @model PlaceApp.Web.Pages.IndexModel
-@inject IHtmlLocalizer<PlaceAppResource> L
-@inject ICurrentUser CurrentUser
 @section styles {
 <abp-style src="/Pages/Index.css" />
 }
 @section scripts {
 <abp-script src="/Pages/Index.js" />
+}
+@{
+    Layout = null;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -24,7 +22,7 @@
     />
     @*<link rel="manifest" href="/manifest.json" />*@
     <title>Iotlink parser query</title>
-    <script defer="defer" src="~/static/js/main.2dfbf5ee.js"></script>
+    <script defer="defer" src="~/static/js/main.d74a1ce5.js"></script>
     <link href="~/static/css/main.4cb084ec.css" rel="stylesheet" />
   </head>
   <body>

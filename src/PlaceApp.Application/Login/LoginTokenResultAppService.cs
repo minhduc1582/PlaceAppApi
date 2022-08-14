@@ -23,15 +23,12 @@ namespace PlaceApp.Login
         {
             _configuration = configuration;
         }
-
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<LoginResultDto> LoginGetToken(UserLoginDto user)
         {
             LoginResultDto loginResultDto = new LoginResultDto();
             //HttpClient client = new HttpClient();
             //string url = $"{_configuration.GetSection("ExternalAPIs:UrlAdmin").Value}/api/account/login";
-            //HttpResponseMessage response = await client.PostAsJsonAsync(
-            //    url, user);
+            //HttpResponseMessage response = await client.PostAsJsonAsync(url,user);
             //response.EnsureSuccessStatusCode();
 
             var httpClient = new HttpClient();
