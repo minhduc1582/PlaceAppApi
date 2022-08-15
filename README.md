@@ -23,6 +23,6 @@ Right click to the .DbMigrator project and select Set as StartUp Project, Hit F5
 Before starting the application, run abp install-libs command in your Web directory to restore the client-side libraries. This will populate the libs folder.
 Ensure that the .Web project is the startup project. Run the application which will open the login page in your browser:
 
-If you dont get it, you click this link below:
+If you dont get it, you can click this link below:
 https://docs.abp.io/en/abp/latest/Getting-Started-Setup-Environment?UI=MVC&DB=Mongo&Tiered=No
   
